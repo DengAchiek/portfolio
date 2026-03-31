@@ -1,0 +1,11 @@
+.DS_Store
+.env
+.env.*
+.vscode/
+env/
+node_modules
+dist
+db.sqlite3
+staticfiles
+tmp_cv_check.pdf
+__pycache__/

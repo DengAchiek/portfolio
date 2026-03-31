@@ -1,0 +1,300 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="{{ profile.name }} is a Nairobi-based software developer building digital products, software platforms, and applied AI solutions."
+    />
+    <title>{{ profile.name }} | Portfolio</title>
+    <link rel="stylesheet" href="{% static 'siteapp/site.css' %}" />
+    <script defer src="{% static 'siteapp/site.js' %}"></script>
+  </head>
+  <body>
+    <div class="min-h-screen bg-slate-950 text-slate-100">
+      <section class="relative overflow-hidden border-b border-white/10">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.18),transparent_30%),radial-gradient(circle_at_top_left,rgba(16,185,129,0.14),transparent_25%)]"></div>
+        <div class="relative mx-auto max-w-6xl px-6 py-20 md:py-28">
+          <div class="grid gap-10 md:grid-cols-[1.25fr_0.75fr] md:items-center">
+            <div class="reveal reveal-visible" style="--delay: 0.05s;">
+              <div class="mb-4 inline-flex rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1 text-sm text-cyan-200">
+                {{ profile.badge_text }}
+              </div>
+              <h1 class="text-4xl font-bold tracking-tight text-white md:text-6xl">
+                {{ profile.name }}
+              </h1>
+              <p class="mt-6 max-w-2xl text-base leading-7 text-slate-300 md:text-lg">
+                {{ profile.hero_description }}
+              </p>
+
+              <div class="mt-8 flex flex-wrap gap-3">
+                <a href="#projects" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-cyan-400 px-6 py-4 text-base font-medium text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300/60">
+                  View Projects
+                </a>
+                <a href="{% url 'cv_download' %}" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-6 py-4 text-base font-medium text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-300/60">
+                  {% include "siteapp/includes/icon.html" with name="download" classes="h-4 w-4" %}
+                  Download CV
+                </a>
+                {% for link in profile.social_links %}
+                  <a href="{{ link.url }}" target="_blank" rel="noreferrer" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-6 py-4 text-base font-medium text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-300/60">
+                    {% include "siteapp/includes/icon.html" with name=link.icon classes="h-4 w-4" %}
+                    {{ link.label }}
+                  </a>
+                {% endfor %}
+              </div>
+
+              <div class="mt-8 grid gap-3 text-sm text-slate-300 sm:grid-cols-2">
+                <div class="flex items-center gap-3">
+                  {% include "siteapp/includes/icon.html" with name="map-pin" classes="h-4 w-4" %}
+                  {{ profile.location }}
+                </div>
+                <div class="flex items-center gap-3">
+                  {% include "siteapp/includes/icon.html" with name="mail" classes="h-4 w-4" %}
+                  {{ profile.email }}
+                </div>
+                <div class="flex items-center gap-3">
+                  {% include "siteapp/includes/icon.html" with name="phone" classes="h-4 w-4" %}
+                  {{ profile.phone }}
+                </div>
+                {% for link in profile.social_links %}
+                  <a href="{{ link.url }}" target="_blank" rel="noreferrer" class="flex items-center gap-3 transition hover:text-white">
+                    {% include "siteapp/includes/icon.html" with name=link.icon classes="h-4 w-4" %}
+                    {{ link.label }}
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="reveal reveal-visible" style="--delay: 0.15s;">
+              <div class="rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur">
+                <div class="p-8">
+                  <div class="grid gap-5">
+                    <div>
+                      <p class="text-sm uppercase tracking-[0.2em] text-cyan-200">Focus Areas</p>
+                      <div class="mt-3 flex flex-wrap gap-2">
+                        {% for area in focus_areas %}
+                          <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm text-slate-200">
+                            {{ area }}
+                          </span>
+                        {% endfor %}
+                      </div>
+                    </div>
+                    <div class="grid gap-4 sm:grid-cols-2">
+                      {% for metric in metrics %}
+                        <div class="rounded-2xl bg-slate-900/70 p-4">
+                          <p class="text-3xl font-semibold">{{ metric.value }}</p>
+                          <p class="mt-1 text-sm text-slate-400">{{ metric.label }}</p>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="mx-auto max-w-6xl px-6 py-16">
+        <div class="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <p class="text-sm uppercase tracking-[0.25em] text-cyan-300">{{ sections.about_eyebrow }}</p>
+            <h2 class="mt-2 text-3xl font-semibold">{{ sections.about_title }}</h2>
+          </div>
+        </div>
+        <div class="rounded-3xl border border-white/10 bg-white/5">
+          <div class="p-8 leading-7 text-slate-300">
+            {{ profile.summary }}
+          </div>
+        </div>
+      </section>
+
+      <section id="capabilities" class="mx-auto max-w-6xl px-6 py-8">
+        <div class="mb-8">
+          <p class="text-sm uppercase tracking-[0.25em] text-cyan-300">{{ sections.skills_eyebrow }}</p>
+          <h2 class="mt-2 text-3xl font-semibold">{{ sections.skills_title }}</h2>
+        </div>
+        <div class="grid gap-6 md:grid-cols-3">
+          {% for skill in skills %}
+            <div class="reveal rounded-3xl border border-white/10 bg-white/5" style="--delay: 0.{{ forloop.counter }}s;">
+              <div class="p-6">
+                <div class="flex items-center gap-3">
+                  <div class="rounded-2xl bg-cyan-400/10 p-3 text-cyan-300">
+                    {% include "siteapp/includes/icon.html" with name=skill.icon classes="h-5 w-5" %}
+                  </div>
+                  <h3 class="text-xl font-semibold">{{ skill.title }}</h3>
+                </div>
+                <div class="mt-5 flex flex-wrap gap-2">
+                  {% for item in skill.entries %}
+                    <span class="rounded-full border border-white/10 px-3 py-1 text-sm text-slate-300">
+                      {{ item }}
+                    </span>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section id="projects" class="mx-auto max-w-6xl px-6 py-16">
+        <div class="mb-8">
+          <p class="text-sm uppercase tracking-[0.25em] text-cyan-300">{{ sections.projects_eyebrow }}</p>
+          <h2 class="mt-2 text-3xl font-semibold">{{ sections.projects_title }}</h2>
+        </div>
+        <div class="grid gap-6 lg:grid-cols-2">
+          {% for project in projects %}
+            <div class="reveal" style="--delay: 0.{{ forloop.counter }}s;">
+              <div class="h-full rounded-3xl border border-white/10 bg-white/5">
+                <div class="p-7">
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                      <div class="rounded-2xl bg-emerald-400/10 p-3 text-emerald-300">
+                        {% include "siteapp/includes/icon.html" with name=project.icon classes="h-5 w-5" %}
+                      </div>
+                      <div>
+                        {% if project.url %}
+                          <a href="{{ project.url }}" target="_blank" rel="noreferrer" class="transition hover:text-cyan-300">
+                            <h3 class="text-xl font-semibold text-white">{{ project.title }}</h3>
+                          </a>
+                        {% else %}
+                          <h3 class="text-xl font-semibold text-white">{{ project.title }}</h3>
+                        {% endif %}
+                        <p class="text-sm text-slate-400">{{ project.period }}</p>
+                      </div>
+                    </div>
+                    {% if project.url %}
+                      <a href="{{ project.url }}" target="_blank" rel="noreferrer" class="transition hover:text-cyan-300">
+                        {% include "siteapp/includes/icon.html" with name="external-link" classes="h-5 w-5 text-slate-500" %}
+                      </a>
+                    {% else %}
+                      {% include "siteapp/includes/icon.html" with name="external-link" classes="h-5 w-5 text-slate-500" %}
+                    {% endif %}
+                  </div>
+
+                  <p class="mt-5 leading-7 text-slate-300">{{ project.description }}</p>
+
+                  <div class="mt-5 flex flex-wrap gap-2">
+                    {% for item in project.stack %}
+                      <span class="rounded-full bg-slate-900/80 px-3 py-1 text-xs text-slate-200">
+                        {{ item }}
+                      </span>
+                    {% endfor %}
+                  </div>
+
+                  <ul class="mt-5 space-y-2 text-sm text-slate-300">
+                    {% for point in project.highlights %}
+                      <li class="flex gap-3">
+                        <span class="mt-2 h-2 w-2 rounded-full bg-cyan-300"></span>
+                        <span>{{ point }}</span>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section id="credentials" class="mx-auto max-w-6xl px-6 py-8">
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="reveal rounded-3xl border border-white/10 bg-white/5" style="--delay: 0.1s;">
+            <div class="p-7">
+              <div class="flex items-center gap-3">
+                {% include "siteapp/includes/icon.html" with name="briefcase" classes="h-5 w-5 text-cyan-300" %}
+                <h3 class="text-2xl font-semibold">{{ sections.experience_title }}</h3>
+              </div>
+              <div class="mt-5 space-y-5">
+                {% for item in experience %}
+                  <div class="rounded-2xl bg-slate-900/60 p-5">
+                    <div class="flex items-start justify-between gap-4">
+                      <div>
+                        <h4 class="font-medium text-white">{{ item.role }}</h4>
+                        {% if item.organization %}
+                          <p class="text-sm text-slate-400">{{ item.organization }}</p>
+                        {% endif %}
+                      </div>
+                      <span class="text-sm text-slate-400">{{ item.period }}</span>
+                    </div>
+                    <p class="mt-3 text-sm leading-7 text-slate-300">{{ item.description }}</p>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+
+          <div class="reveal rounded-3xl border border-white/10 bg-white/5" style="--delay: 0.15s;">
+            <div class="p-7">
+              <div class="flex items-center gap-3">
+                {% include "siteapp/includes/icon.html" with name="graduation-cap" classes="h-5 w-5 text-cyan-300" %}
+                <h3 class="text-2xl font-semibold">{{ sections.education_title }}</h3>
+              </div>
+              <div class="mt-5 space-y-5">
+                {% for item in education %}
+                  <div class="rounded-2xl bg-slate-900/60 p-5">
+                    <div class="flex items-start justify-between gap-4">
+                      <div>
+                        <h4 class="font-medium text-white">{{ item.title }}</h4>
+                        <p class="text-sm text-slate-400">{{ item.org }}</p>
+                      </div>
+                      <span class="text-sm text-slate-400">{{ item.period }}</span>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mx-auto max-w-6xl px-6 py-16">
+        <div class="reveal rounded-3xl border border-white/10 bg-white/5">
+          <div class="p-8">
+            <div class="flex items-center gap-3">
+              {% include "siteapp/includes/icon.html" with name="award" classes="h-5 w-5 text-cyan-300" %}
+              <h3 class="text-2xl font-semibold">{{ sections.certifications_title }}</h3>
+            </div>
+            <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {% for item in certifications %}
+                <div class="rounded-2xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-slate-200">
+                  {{ item }}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="border-t border-white/10">
+        <div class="mx-auto max-w-6xl px-6 py-16">
+          <div class="reveal rounded-3xl border border-white/10 bg-gradient-to-r from-cyan-500/10 to-emerald-500/10">
+            <div class="p-8 md:p-10">
+              <div class="grid gap-6 md:grid-cols-[1fr_auto] md:items-center">
+                <div>
+                  <p class="text-sm uppercase tracking-[0.25em] text-cyan-300">{{ sections.contact_eyebrow }}</p>
+                  <h2 class="mt-2 text-3xl font-semibold">{{ profile.contact_title }}</h2>
+                  <p class="mt-3 max-w-2xl leading-7 text-slate-300">
+                    {{ profile.contact_description }}
+                  </p>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                  <a href="{{ profile.email_href }}" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-cyan-400 px-6 py-4 text-base font-medium text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-300/60">
+                    {% include "siteapp/includes/icon.html" with name="mail" classes="h-4 w-4" %}
+                    Email Me
+                  </a>
+                  <a href="{% url 'cv_download' %}" class="inline-flex items-center justify-center gap-2 rounded-2xl border border-white/20 bg-white/5 px-6 py-4 text-base font-medium text-white transition hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-300/60">
+                    {% include "siteapp/includes/icon.html" with name="download" classes="h-4 w-4" %}
+                    Download CV
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

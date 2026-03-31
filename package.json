@@ -1,0 +1,12 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build:css": "tailwindcss -i ./siteapp/static_src/input.css -o ./siteapp/static/siteapp/site.css --minify",
+    "watch:css": "tailwindcss -i ./siteapp/static_src/input.css -o ./siteapp/static/siteapp/site.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}
