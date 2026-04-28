@@ -21,6 +21,15 @@ ALLOWED_HOSTS = [
   if host.strip()
 ]
 
+custom_domains = [
+  domain.strip()
+  for domain in os.environ.get("CUSTOM_DOMAINS", "achiek.info,www.achiek.info").split(",")
+  if domain.strip()
+]
+for domain in custom_domains:
+  if domain not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(domain)
+
 render_hostname = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if render_hostname and render_hostname not in ALLOWED_HOSTS:
   ALLOWED_HOSTS.append(render_hostname)
@@ -34,6 +43,11 @@ if render_hostname:
   render_origin = f"https://{render_hostname}"
   if render_origin not in CSRF_TRUSTED_ORIGINS:
     CSRF_TRUSTED_ORIGINS.append(render_origin)
+
+for domain in custom_domains:
+  custom_origin = f"https://{domain}"
+  if custom_origin not in CSRF_TRUSTED_ORIGINS:
+    CSRF_TRUSTED_ORIGINS.append(custom_origin)
 
 INSTALLED_APPS = [
   "django.contrib.admin",
